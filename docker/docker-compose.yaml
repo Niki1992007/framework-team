@@ -1,0 +1,60 @@
+version: '3.3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: simple-test-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${NGINX_CONF}:/etc/nginx/conf.d
+      - ${BACKEND_APP}:/var/www/backend
+    # - ${SWAGGER_DOC}:/var/www/swagger
+      - ${NGINX_LOGS}:/var/log/nginx
+    links:
+      - php
+
+  php:
+    build: ./php
+    container_name: simple-test-php-fpm
+    volumes:
+      - ${BACKEND_APP}:/var/www/backend
+    links:
+      - db
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    container_name: simple-test-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_LOGIN}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ../databases:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: simple-test-adminer
+    ports:
+      - "8080:8080"
+
+  composer:
+    build: ./composer
+    container_name: simple-test-composer
+    volumes:
+      - ${BACKEND_APP}:/var/www
+    working_dir: /var/www
+    command: composer install
+
+  #swagger:
+  #  image: swaggerapi/swagger-ui
+  #  container_name: simple-test-swagger
+  #  ports:
+  #    - "8000:8080"
+  #  environment:
+  #    - API_URL=http://api.simple-test73.local/swagger/api.json
+  #  links:
+  #    - nginx
