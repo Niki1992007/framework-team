@@ -8,6 +8,9 @@
                     <div class="card-header">{{ __('tasks.task_header') }}</div>
 
                     <div class="card-body">
+
+                        @include('common.errors')
+
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
@@ -17,7 +20,7 @@
                             {{ __('You are logged in!') }}
                         </p>
 
-                        <form action="{{ url('task') }}"
+                        <form action="{{ route('create_tasks') }}"
                               method="POST"
                               class="form-horizontal mt-5">
                         {{ csrf_field() }}
@@ -48,6 +51,10 @@
 
                     </div>
                 </div>
+
+                @if (count($tasks) > 0)
+                    @include('tasks.all_tasks')
+                @endif
             </div>
         </div>
     </div>

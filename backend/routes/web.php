@@ -20,7 +20,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::middleware('verified')->group(function () {
-    Route::get('/tasks', 'TaskController@index');
-    Route::post('/task', 'TaskController@store');
+    Route::get('/tasks', 'TaskController@index')->name('index_tasks_page');
+    Route::post('/task', 'TaskController@store')->name('create_tasks');
     Route::delete('/task/{task}', 'TaskController@destroy');
 });

@@ -20,3 +20,4 @@ backend/public/fonts/**/*
 backend/public/robots.txt
 backend/package-lock.json
 backend/public/css/app.css
+public/js/app.js

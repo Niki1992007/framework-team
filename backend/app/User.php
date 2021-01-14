@@ -2,10 +2,14 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
+/**
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
@@ -37,7 +41,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    // у пользователя может быть много задач
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * у пользователя может быть много задач
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class);
