@@ -36,4 +36,10 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // у пользователя может быть много задач
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
